@@ -346,7 +346,7 @@ void make_color(int color, int position_x, int position_y)
 void save_to_file()
 {
     std::fstream file;
-    file.open("text_file.txt",std::ios::out);
+    file.open("image.txt",std::ios::out);
     for (int i=0; i<=34; ++i){
         for (int j=0; j<=59; ++j){
                 file<<World[i][j];
@@ -355,3 +355,4 @@ void save_to_file()
         file<<"\n";
     }
 }
+
