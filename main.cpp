@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <cstdlib>
 #include <conio.h>
+#include <fstream>
 
 void display_board(int x, int y);
 void display_colors();
@@ -11,6 +12,7 @@ int border_y(int position_y);
 void get_char(int position_x, int position_y, int previous_position_x, int previous_position_y, char movement);
 void gotoxy(short x, short y);
 void make_color(int color, int position_x, int position_y);
+void save_to_file();
 
 
 int World[35][60]{
@@ -226,6 +228,9 @@ void get_char(int position_x, int position_y, int previous_position_x, int previ
             case 'i':
                 color = 15;
                 break;
+            case 'f':
+                save_to_file();
+                break;
         }
         position_x = border_x(position_x);
         position_y = border_y(position_y);
@@ -336,4 +341,17 @@ void display_colors(){
 void make_color(int color, int position_x, int position_y)
 {
     World[position_y][position_x]==color;
+}
+
+void save_to_file()
+{
+    std::fstream file;
+    file.open("text_file.txt",std::ios::out);
+    for (int i=0; i<=34; ++i){
+        for (int j=0; j<=59; ++j){
+                file<<World[i][j];
+                file<<",";
+        }
+        file<<"\n";
+    }
 }
