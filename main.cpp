@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <conio.h>
 #include <fstream>
+#include <string>
 
 void display_board(int x, int y);
 void display_colors();
@@ -13,6 +14,7 @@ void get_char(int position_x, int position_y, int previous_position_x, int previ
 void gotoxy(short x, short y);
 void make_color(int color, int position_x, int position_y);
 void save_to_file();
+void read_from_file();
 
 
 int World[35][60]{
@@ -231,6 +233,9 @@ void get_char(int position_x, int position_y, int previous_position_x, int previ
             case 'f':
                 save_to_file();
                 break;
+            case 'g':
+                read_from_file();
+                break;
         }
         position_x = border_x(position_x);
         position_y = border_y(position_y);
@@ -346,7 +351,7 @@ void make_color(int color, int position_x, int position_y)
 void save_to_file()
 {
     std::fstream file;
-    file.open("image.txt",std::ios::out);
+    file.open("saved_images/save.txt",std::ios::out);
     for (int i=0; i<=34; ++i){
         for (int j=0; j<=59; ++j){
                 file<<World[i][j];
@@ -356,3 +361,29 @@ void save_to_file()
     }
 }
 
+void read_from_file()
+{
+    std::fstream file;
+    file.open("read_images/read.txt", std::ios::in);
+    char c{' '};
+    std::string line{""};
+    for(int i{0}; i<35; ++i){
+        getline(file, line);
+        std::string number{""};
+        int j{0};
+        for (char c : line) {
+            if (c == ',') {
+                if (!number.empty()) {
+                    World[i][j] = std::stoi(number);
+                    j++;
+                    number = "";
+                    if (j >= 60) break;
+                }
+            }
+            else {
+                number += c;
+            }
+        }
+    }
+    system("cls");
+}
